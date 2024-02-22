@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="padding:10%" >
+    {%block content%}
+ 
+    {% if err %}
+    {{err}}
+    {%endif%}
+    <form method="post", action="{% url 'base:verification' agent.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+    {{form.as_div}}
+</div>
+    <input type="submit">
+</form>
+    {% endblock%}
+</body>
+</html>

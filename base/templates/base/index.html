@@ -1,0 +1,221 @@
+{% extends 'base/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link type="stylesheet" href="{% static 'base/css/base.css' %}">
+</head>
+
+<body class="container">
+
+
+
+
+    {% block content %}
+
+    <h1 style="color: rgb(30,133,225); font-size: xx-large; font-weight: bolder;">Buy and Sell Safely Online</h1>
+    <div>
+        <br />
+        <div style="width: 99%; float: inline-start; display: block;">
+            <div>
+                <div style="width: 45%; padding-left: 5%; float: left; ">
+                    <p class="text">Want to trade online but even though you worry about safety, fraud, non-payments or
+                        mishandling
+                        of
+                        your goods? Worry no more, we've got you covered at safe box. At safe box, all goods,
+                        commodities and entities are kept in your personal safety deposit box till you confirm all
+                        payment for
+                        release
+                        of goods.
+                        We retain buyer's money till goods are delivered
+                        and inspeacted. We only release to seller on completion of products. To learn more, read our
+                        <a>ABOUT</a>
+                        page.
+                    </p>
+                </div>
+
+
+                <div style="width: 45%; float: right; padding-right: 5%;">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1"><span class="text">I am a: </span></label>
+                            <select class="form-control" id="exampleFormControlSelect1" required>
+                                <option>Buyer</option>
+                                <option>Seller</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label> <span class="text">I want to trade: </span></label>
+                            <select class="form-control" id="exampleFormControlSelect1" required>
+                                <option>Automotive or industrial spare parts</option>
+                                <option>Beauty and Health</option>
+                                <option>Books or Magazines</option>
+                                <option>Clothing and other Accessories</option>
+                                <option>Computer Hardware or Software</option>
+                                <option>Cosmetics injectibles</option>
+                                <option>Electronics</option>
+                                <option>Food</option>
+                                <option>Fine Art</option>
+                                <option>Furniture</option>
+                                <option>Heavy Equipment and Machinery</option>
+                                <option>Intellectual Property</option>
+                                <option>Jewellery and Watches</option>
+                                <option>Movies and Music</option>
+                                <option>Toys and Hobbies</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <span> <label for="exampleInputPassword1"><span class="text">I deal in:</span> </label>
+                                <input type="text" class="form-control" id="exampleInputPassword1"
+                                    placeholder="CURRENCY" required>
+                            </span>
+                        </div>
+                        <div>
+                            <button type="submit" style="color: whitesmoke; background-color: green;">Get
+                                Started</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <br />
+
+            <div style="margin-left: 55%;">
+                <h2 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">Refer and Earn</h2>
+                <p class="text"> Earn a 50% commision daily on our site on every transaction your referred friends make
+                    with us.
+                    To qualify, make sure they register with your
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'base:profile' agent.id %}">referral code.</a>
+                    {% else %}
+                    <a href="{% url 'base:login' %}">referral code.</a>
+                    {% endif %}
+
+                </p>
+                {% if user.is_authenticated %}
+                <p class="text">Don't know your referral code? Check the bottom your <a
+                        href="{% url 'base:profile' agent.id %}">profile</a> page</p>
+                {% else %}
+                <p class="text">Don't know your referral code? Check the bottom your <a
+                        href="{% url 'base:login' %}">profile</a> page</p>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div>
+        <img style="width: 100%;" src="{% static 'base/images/signin.jpg' %}">
+
+    </div>
+
+    <div>
+        <h2 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">We secure all types of business
+            transaction.</h2>
+
+        <span class="text">
+            <li>Real Estate</li>
+            <li>Online currency</li>
+            <li>Interstate Purchases</li>
+        </span>
+        <br />
+
+    </div>
+    <div>
+        <div>
+            <h2 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">Why Use Safe Box?</h2>
+        </div>
+        <div style="width: 90%;">
+
+        </div>
+        <hr />
+        <hr />
+        <hr />
+    </div>
+    <div style="padding-left: 5%; padding-right: 5%; float: inline-start;">
+        <div class="row">
+
+            <div class="column"
+                style="background-image: url('static/base/images/box.jpg'); background-size: cover; background-repeat: no-repeat;">
+                <h4 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">Protect buyers from fake
+                    or nefarious products</h4>
+                <p class="text"> <b>Saves you from online scammers by retaining your money till you receive and confirm
+                        ordered goods/services.</b></p>
+
+
+            </div>
+            <div class="column"
+                style="background-image: url('static/base/images/secure.jpg'); background-size: cover; background-repeat: no-repeat;">
+                <h4 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">Protect sellers from being
+                    defrauded</h4>
+                <p class="text"><b>At safebox, we ensure that the buyer makes payment before the goods <area shape=""
+                            coords="" href="" alt=""> delivered.
+                        Please, note; you would always have to hold till buyer marks order as completed</b></p>
+
+            </div>
+            <div class="column"
+                style="background-image: url('static/base/images/quality.jpg'); background-size: cover; background-repeat: no-repeat;">
+                <h4 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">Minimize supply of
+                    inferior products.</h4>
+                <p class="text">Safe Box minimizes supply of inferior goods by ensuring the buyers get the exact quality
+                    of goods they ordered.</p>
+
+            </div>
+            <div class="column"
+                style="background-image: url('static/base/images/trust.jpg'); background-size: cover; background-repeat: no-repeat;">
+                <h4 style="color: rgb(30,133,225); font-size: x-large; font-weight: bold;">Increases sales by
+                    establishing mutual trust.</h4>
+                <p class="text">Safe Box minimizes supply of inferior goods by ensuring the buyers get the exact quality
+                    of goods they ordered.</p>
+
+            </div>
+        </div>
+    </div>
+    <br /><br />
+
+    <div style="float: inline-start; display: block; padding: 10%;">
+
+        <p class="text">
+            <br />
+            <hr />
+            Safe Box minimizes cases of "What i ordered vs what i got" by ensuring that both buyer and sellers have
+            accurate
+            information and adequate inspection time when trading.
+            <hr />
+            <span class="text">
+                At Safe Box, any party that fails wto fufill business requirements they agreed to would be fined by our
+                disputing agents.
+            </span>
+        </p>
+
+    </div>
+    <div class="container">
+        <div style="background-color: wheat; padding: 10%;">
+            <b class="text">Transactions completed with us as at <span style="font-family: 'Times New Roman', Times, serif; color: rgb(30,133,225);" >{{time}} </span></b><br />
+            <b class="text"> <span style="font-size: xx-large; color: rgb(100, 200, 100);">8,392,039 </span>...and counting. Yours should be
+                next!!!</b><br />
+
+
+            <button style="background-color: green; color: whitesmoke;">Start New Transaction <svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-hand-index-thumb-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8.5 1.75v2.716l.047-.002c.312-.012.742-.016 1.051.046.28.056.543.18.738.288.273.152.456.385.56.642l.132-.012c.312-.024.794-.038 1.158.108.37.148.689.487.88.716q.113.137.195.248h.582a2 2 0 0 1 1.99 2.199l-.272 2.715a3.5 3.5 0 0 1-.444 1.389l-1.395 2.441A1.5 1.5 0 0 1 12.42 16H6.118a1.5 1.5 0 0 1-1.342-.83l-1.215-2.43L1.07 8.589a1.517 1.517 0 0 1 2.373-1.852L5 8.293V1.75a1.75 1.75 0 0 1 3.5 0" />
+                </svg></button>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>
