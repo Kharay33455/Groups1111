@@ -40,7 +40,6 @@
 
 
                 <div style="width: 45%; float: right; padding-right: 5%;">
-                    <form>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1"><span class="text">I am a: </span></label>
                             <select class="form-control" id="exampleFormControlSelect1" required>
@@ -77,11 +76,21 @@
                                     placeholder="CURRENCY" required>
                             </span>
                         </div>
+                        {% if request.user.is_authenticated %}
+                        <div>
+                            <a href="{% url 'base:verification' agent.id %}">
+                            <button type="submit" style="color: whitesmoke; background-color: green;">Get
+                                Started</button>
+                            </a>
+                        </div>
+                        {% else %}
+                        <a href="{% url 'base:login' %}">
                         <div>
                             <button type="submit" style="color: whitesmoke; background-color: green;">Get
                                 Started</button>
                         </div>
-                    </form>
+                    </a>
+                        {% endif %}
 
                 </div>
             </div>

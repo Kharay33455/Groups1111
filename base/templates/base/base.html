@@ -32,28 +32,23 @@
           <a class="nav-link" href="{% url 'base:base' %}"><span class="nav-text">Home</span> <span
               class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><span class="nav-text">Categories</span></a>
-        </li>
+    
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
             <span class="nav-text">Contact Us</span>
           </a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="#"><span class="nav-text">Address</span>s</a>
-            <a class="dropdown-item" href="#"><span class="nav-text">Email Us</span></a>
+            <a class="dropdown-item" href="{% url 'base:lam' %}"><span class="nav-text">Leave a message</span></a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"><span class="nav-text">Our Policies</span></a>
+            <a class="dropdown-item" href="{% url 'base:policies' %}"><span class="nav-text">Our Policies</span></a>
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><span class="nav-text">About Us</span></a>
+          <a class="nav-link" href="{% url 'base:policies' %}"><span class="nav-text">About Us</span></a>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+   
       {% if user.is_authenticated %}
       <a href="{% url 'base:profile' agent.id %}">
         <button>
@@ -96,9 +91,15 @@
 
   <p>With Safe Box, you can trust any <a href="{% url 'base:login' %}" > verified vendor</a>
     {% endif %}
-      <span> <h2>STAY SAFE WITH SAFE BOX TODAY</h2> <br/><button>Let's get started <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index-thumb-fill" viewBox="0 0 16 16">
+    {% if request.user.is_authenticated %}
+      <span> <h2>STAY SAFE WITH SAFE BOX TODAY</h2> <br/><button> <a href="{% url 'base:verification' agent.id %}"> Let's get started </a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index-thumb-fill" viewBox="0 0 16 16">
           <path d="M8.5 1.75v2.716l.047-.002c.312-.012.742-.016 1.051.046.28.056.543.18.738.288.273.152.456.385.56.642l.132-.012c.312-.024.794-.038 1.158.108.37.148.689.487.88.716q.113.137.195.248h.582a2 2 0 0 1 1.99 2.199l-.272 2.715a3.5 3.5 0 0 1-.444 1.389l-1.395 2.441A1.5 1.5 0 0 1 12.42 16H6.118a1.5 1.5 0 0 1-1.342-.83l-1.215-2.43L1.07 8.589a1.517 1.517 0 0 1 2.373-1.852L5 8.293V1.75a1.75 1.75 0 0 1 3.5 0"/>
         </svg></button></span>
+{% else %}
+        <span> <h2>STAY SAFE WITH SAFE BOX TODAY</h2> <br/><button> <a href="{% url 'base:login' %}"> Let's get started </a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-index-thumb-fill" viewBox="0 0 16 16">
+          <path d="M8.5 1.75v2.716l.047-.002c.312-.012.742-.016 1.051.046.28.056.543.18.738.288.273.152.456.385.56.642l.132-.012c.312-.024.794-.038 1.158.108.37.148.689.487.88.716q.113.137.195.248h.582a2 2 0 0 1 1.99 2.199l-.272 2.715a3.5 3.5 0 0 1-.444 1.389l-1.395 2.441A1.5 1.5 0 0 1 12.42 16H6.118a1.5 1.5 0 0 1-1.342-.83l-1.215-2.43L1.07 8.589a1.517 1.517 0 0 1 2.373-1.852L5 8.293V1.75a1.75 1.75 0 0 1 3.5 0"/>
+        </svg></button></span>
+        {% endif %}
         
   </p>
   <!-- Small button groups (default and split) -->
@@ -107,23 +108,24 @@
 Quick links
 </button>
 <div class="dropdown-menu">
-<a>Home</a> <br>
-<a>About Us</a> <br>
-<a>Contact us</a> <br>
-<a href="">Our services</a>
+<a href="{% url 'base:base' %}" >Home</a> <br>
+<a href="{% url 'base:policies' %}" >About Us</a> <br>
+<a href="{% url 'base:lam' %}" >Contact us</a> <br>
+<a href="{% url 'base:policies' %}">Our services</a>
 </div>
 </div>
 <div class="btn-group">
+  <a href="{% url 'base:policies' %}">
 <button class="btn btn-secondary btn-sm" type="button">
 Legal and Policies
 </button>
+</a>
 <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
 <span class="sr-only">Toggle Dropdown</span>
 </button>
 <div class="dropdown-menu">
-  <a>Terms of Use</a><br/>
-  <a>Help and Support</a><br>
-  <a>Frequently Asked Question</a><br>
+  <a href="{% url 'base:policies' %}" >Terms of Use</a><br/>
+  <a href="{% url 'base:lam' %}" >Help and Support</a><br>
 </div>
 </div>
 

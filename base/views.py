@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from .models import Agent, Address, Verification
+from .models import *
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
@@ -117,3 +117,39 @@ def verification_pending(request, agent_id, verification_id):
     verification = Verification.objects.get(pk = verification_id)
     context = {'agent':agent, 'verification': verification}
     return render(request, 'base/pending.html', context)
+
+
+def policies(request):
+    if request.user.is_authenticated:
+        agent = Agent.objects.get(user = request.user)
+        context = {'agent':agent}
+        return render(request, 'base/policies.html', context)
+    else:
+        context = {}
+        return render(request, 'base/policies.html', context)
+
+def leaveamessage(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+
+            agent = Agent.objects.get(user = request.user)
+            title = request.POST['title']
+            message = request.POST['message']
+            new_messsage = Message.objects.create(agent = agent, title = title, message = message)
+            new_messsage.save()
+            context = {'agent': agent, 'msg':'Your message has been sent. We will reach out to you as soon as possible.'}
+            return render(request, 'base/leavemessage.html', context)
+        else:
+            return HttpResponseRedirect(reverse('base:login'))
+    else:
+
+
+
+        if request.user.is_authenticated:
+            agent = Agent.objects.get(user = request.user)
+            context = {'agent': agent}
+            return render(request, 'base/leavemessage.html', context)
+        
+        else:
+            context = {}
+            return render(request, 'base/leavemessage.html', context)

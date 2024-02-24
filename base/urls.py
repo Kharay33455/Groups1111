@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', views.login_request, name= 'login'),
     path('<int:agent_id>/verification', views.verification_request, name='verification'),
     path('<int:agent_id>/verification/pending/<int:verification_id>/', views.verification_pending, name='pending'),
+    path('policies/', views.policies, name='policies'),
+    path('leave-a-message/', views.leaveamessage, name='lam'),
 
 
 ]

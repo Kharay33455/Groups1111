@@ -43,3 +43,12 @@ class Verification(models.Model):
     nin_front = models.ImageField(upload_to=user_media_path, null = True, blank= True)
     nin_back = models.ImageField(upload_to=user_media_path, null = True, blank= True)
     proclaim_video = models.FileField(upload_to= user_media_path, null = True, blank = True)
+
+class Message(models.Model):
+    """Collect and store user messages"""
+    agent = models.ForeignKey(Agent, on_delete = models.CASCADE)
+    title = models.CharField(max_length = 20)
+    message = models.CharField(max_length = 1000)
+
+    def __str__(self):
+        return self.title
