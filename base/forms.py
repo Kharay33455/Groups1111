@@ -6,8 +6,5 @@ from .models import Verification
 class VerificationForm(forms.ModelForm):
     class Meta:
         model = Verification
-        fields = ['nin_front', 'nin_back', 'proclaim_video']
+        fields = ['nin_front', 'nin_back', 'proclaim_video', 'full_picture']
 
-
-class TestForm(forms.Form):
-    amoutn = forms.IntegerField()

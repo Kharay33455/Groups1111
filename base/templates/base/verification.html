@@ -2,23 +2,45 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body style="padding:10%" >
+
+<body style="padding:10%">
     {%block content%}
- 
-    {% if err %}
-    {{err}}
-    {%endif%}
-    <form method="post", action="{% url 'base:verification' agent.id %}" enctype="multipart/form-data">
-        {% csrf_token %}
-    {{form.as_div}}
-</div>
+    <div class="container">
+
+        {% if err %}
+        {{err}}
+        {%endif%}
+
+        <div>
+            <h2>MAKE A VIDEO OF YOURSELF WITH NO FILTERS AND IN CLEAR WHITE LIGHTING CONDITIONS. <br> SAY THE FOLLOWING:</h2>
+            <p>
+               "I {{agent.first_name}} {{agent.last_name}}, verify to exchange Alipay Yuan for Naira in the import group
+                and i will take full responsibility if any issues arise regarding my customer's money."
+            </p>
+            <small>Upload this as your self proclaimaition video to confirm you're not a robot and you fully understand the task at hand and required responsibilities.</small>
+        </div>
+<hr>
+        <div>
+            <h2>Uplaod only clear and original instances of the following documents.</h2>
+        </div>
+        <br>
+
+        <form class="form-data" method="post" , action="{% url 'base:verification' agent.id %}"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_div}}
+    </div>
     <input type="submit">
-</form>
+    </form>
+    </div>
+
     {% endblock%}
 </body>
+
 </html>

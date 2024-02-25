@@ -43,6 +43,10 @@ class Verification(models.Model):
     nin_front = models.ImageField(upload_to=user_media_path, null = True, blank= True)
     nin_back = models.ImageField(upload_to=user_media_path, null = True, blank= True)
     proclaim_video = models.FileField(upload_to= user_media_path, null = True, blank = True)
+    full_picture = models.ImageField(upload_to=user_media_path, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.agent.first_name} Verification'
 
 class Message(models.Model):
     """Collect and store user messages"""

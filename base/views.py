@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect
 from django.db import IntegrityError
 from django.utils import timezone
 from .forms import VerificationForm
-from .forms import TestForm
 # Create your views here.
 
 def base(request):
@@ -24,8 +23,7 @@ def base(request):
 def profile(request, agent_id):
     agent = Agent.objects.get(pk = agent_id)
     agent_id = agent.id
-    form = TestForm()
-    context = {'agent':agent, 'form': form}
+    context = {'agent':agent}
     return render(request, 'base/profile.html', context)
 
 def register(request):
@@ -94,7 +92,8 @@ def verification_request(request, agent_id):
                 context = {'err': 'Your documents are already with us', 'agent':agent}
                 return render(request, 'base/verification.html', context)
         else:
-            return(render, 'base/verification.html', {'err':'Invalid documents'})
+            
+            return(render, 'base/verification.html', {'err':'Invalid documents', 'agent':agent})
     else:
         try:
             agent = Agent.objects.get(pk = agent_id)
