@@ -17,15 +17,36 @@
         {{err}}
         {%endif%}
 
+        {% if prompt %}
         <div>
-            <h2>MAKE A VIDEO OF YOURSELF WITH NO FILTERS AND IN CLEAR WHITE LIGHTING CONDITIONS. <br> SAY THE FOLLOWING:</h2>
+            <h4>
+                {{prompt.main}}
+            </h4>
+        </div>
+        <div>
+            <ul style="font-family: Helvetica, Arial,  sans-serif; font-style: italic;">
+                <li> {{prompt.prompt1}}</li>
+                <li> {{prompt.prompt2}}</li>
+                <li> {{prompt.prompt3}}</li>
+                <li> {{prompt.prompt4}}</li>
+
+
+            </ul>
+        </div>
+        {% endif %}
+
+        <div>
+            <h2>MAKE A VIDEO OF YOURSELF WITH NO FILTERS AND IN CLEAR WHITE LIGHTING CONDITIONS. <br> SAY THE FOLLOWING:
+            </h2>
             <p>
-               "I {{agent.first_name}} {{agent.last_name}}, verify to exchange Alipay Yuan for Naira in the import group
+                "I {{agent.first_name}} {{agent.last_name}}, verify to exchange Alipay Yuan for Naira in the import
+                group
                 and i will take full responsibility if any issues arise regarding my customer's money."
             </p>
-            <small>Upload this as your self proclaimaition video to confirm you're not a robot and you fully understand the task at hand and required responsibilities.</small>
+            <small>Upload this as your self proclaimaition video to confirm you're not a robot and you fully understand
+                the task at hand and required responsibilities.</small>
         </div>
-<hr>
+        <hr>
         <div>
             <h2>Uplaod only clear and original instances of the following documents.</h2>
         </div>
@@ -36,7 +57,11 @@
             {% csrf_token %}
             {{form.as_div}}
     </div>
-    <input type="submit">
+    {% if prompt %}
+    <input type="submit" value="Try Again...">
+    {% else %}
+    <input type="submit" value="Verify...">
+    {% endif %}
     </form>
     </div>
 

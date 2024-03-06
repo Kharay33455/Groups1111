@@ -1,0 +1,99 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <style>
+        .loading {
+            width: 25%;
+            height: 150px;
+            margin-left: 43%;
+            background-image: url('/static/base/images/up.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            animation: loading 1s infinite;
+
+        }
+
+        @keyframes loading {
+            0% {
+                background-image: url('/static/base/images/up.png');
+            }
+
+            25% {
+                background-image: url('/static/base/images/right.png');
+            }
+
+            50% {
+                background-image: url('/static/base/images/down.png');
+            }
+
+            75% {
+                background-image: url('/static/base/images/left.png');
+            }
+
+            
+            100% {
+                background-image: url('/static/base/images/up.png');
+            }
+            
+
+        }
+    </style>
+</head>
+<div style="padding: 3%;">
+
+    <div class="loading">
+
+        <div style="position: absolute;">
+
+        </div>
+    </div>
+    <div>
+        <h2 style="color: green;">
+            Validating Bank Account...
+        </h2>
+     
+    </div>
+
+
+    <div>
+        <table>
+            <tr>
+                <th>
+                    Bank Name:
+                </th>
+                <td>
+                    {{bank.bank_name.bank_name}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Account Name:
+                </th>
+                <td>
+                    {{bank.account_name}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Account Number:
+                </th>
+                <td>
+                    {{bank.account_number}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<br>
+<p>
+    This generally doesn't take long...
+</p>
+
+    <small>
+        Please, note. Beyond this point, you may need to deposit a holding fee. Your holding would be recorded as unavailable assest and returned upon closure of your account.
+    </small>
+
+</div>
+{% endblock %}

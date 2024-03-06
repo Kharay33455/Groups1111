@@ -1,0 +1,144 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<script>
+    function AddBank() {
+        document.getElementById('bank').style.display = 'block';
+    }
+</script>
+<div style="padding: 3%; position: relative; width: 100%; height: 400px;">
+    <div style="width: 100%; position: absolute; top: 0;">
+
+        <div style="width: 100%;">
+            <div style="margin-left: 40%;">
+                <img style="width: 20%;" src="{% static 'base/images/tick.jpg' %}" alt="">
+            </div>
+        </div>
+        <h2 style="text-align: center;">
+
+            Verification successful.
+        </h2>
+        <h3>
+            Dear {{agent.first_name}}, your verification was successful.
+        </h3>
+        <br>
+        <div
+            style="width: 90%; margin-left: 5%; padding: 5%; background-color: rgba(100, 200, 100, 0.2); border-radius: 10%;">
+            <h4>Time to register your account with us.</h4>
+            <h5>Please, note the following:</h5>
+            <ul>
+                <li>
+                    <h6>
+                        You can only initiate Import Groups related transactions from this account. Never initiate
+                        transactions affiliated with us from unchecked accounts.
+                    </h6>
+                </li>
+
+                <li>
+                    <h6>
+                        You need at least one bank account in your name afifliated with your agency account. You can up
+                        to 3 accounts max.
+                    </h6>
+                </li>
+
+                <li>
+                    <h6>
+                        You can only update your affiliated account once every 24 hours.
+                    </h6>
+                </li>
+            </ul>
+            <p>
+                If you understand the key rules above...
+            </p>
+            <button onclick="AddBank()" class="btn btn-block btn-success">
+                Proceed...
+            </button>
+        </div>
+
+    </div>
+
+
+    <div id="bank"
+        style="background-color: rgba(100, 200, 100, 0.9); z-index: 1; position: absolute; top: 30%; display: none; height: 800px; width: 100%;">
+        <h1 style="font-style: italic; font-family: Helvetica, Arial,  sans-serif;"><span
+                style="color: red;">*</span>Add
+            bank account<span style="color: red;">*</span></h1>
+        <h2>
+            Bank Account Name must match "{{agent.first_name}} {{agent.last_name}}"
+        </h2>
+        <form action="{% url 'base:pending_bank' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="bank_name">Bank Name:</label>
+
+
+                <select class="form-control" id="bank_name" name="bank_name">
+                    <option value="001">CENTRAL BANK OF NIGERIA</option>
+                    <option value="011">FIRST BANK OF NIGERIA PLC</option>
+                    <option value="023">NIGERIA INTERNATINAL BANK (CITIBANK)</option>
+                    <option value="030">HERITAGE BANK</option>
+                    <option value="032">UNION BANK OF NIGERIA PLC</option>
+                    <option value="033">UNITED BANK FOR AFRICA PLC</option>
+                    <option value="035">WEMA BANK PLC</option>
+                    <option value="044">ACCESS BANK NIGERIA LTD</option>
+                    <option value="050">ECOBANK NIGERIA PLC</option>
+                    <option value="057">ZENITH INTERNATIONAL BANK LTD</option>
+                    <option value="058">GUARANTY TRUST BANK PLC</option>
+                    <option value="060002">FBNQuest Merchant Bank Limited</option>
+                    <option value="068">STANDARD CHARTERED BANK NIGERIA LTD</option>
+                    <option value="070">FIDELITY BANK PLC</option>
+                    <option value="076">SKYE BANK PLC</option>
+                    <option value="082">KEYSTONE BANK LTD</option>
+                    <option value="090118">IBILE MFB</option>
+                    <option value="090121">HASAL MICROFINANCE BANK</option>
+                    <option value="100">SUNTRUST BANK</option>
+                    <option value="101">PROVIDUS BANK</option>
+                    <option value="214">FIRST CITY MONUMENT BANK</option>
+                    <option value="215">UNITY BANK PLC</option>
+                    <option value="221">STANBIC IBTC BANK PLC</option>
+                    <option value="232">STERLING BANK PLC</option>
+                    <option value="301">JAIZ BANK PLC</option>
+                    <option value="327">PAGA</option>
+                    <option value="502">RAND MERCHANT BANK</option>
+                    <option value="526">PARALLEX MFB</option>
+                    <option value="552">NPF Microfinance Bank</option>
+                    <option value="559">CORONATION MERCHANT BANK</option>
+                    <option value="560">Page MFBank</option>
+                    <option value="561">New Prudential Bank</option>
+                    <option value="601">FSDH MERCHANT BANK LIMIT</option>
+                    <option value="608">FINATRUST MICROFINANCE BANK</option>
+                    <option value="090267">KUDA MICROFINANCE BANK</option>
+                    <option value="305">OPAY</option>
+                </select>
+
+            </div>
+            <label for="account_number">Account Number:</label>
+            <input type="number" name="account_number" id="account_number" class="form-control" required minlength="11"
+                oninput=" if (this.value.length > 11) this.value = this.value.slice(0, 11);">
+
+
+                <label for="account_name">Account Name:</label>
+                <input type="text" name="account_name" id="account_name" class="form-control" required maxlength="50"
+                    oninput=" if (this.value.length > 50) this.value = this.value.slice(0, 50);">
+    
+
+
+
+            <div class="form-group">
+                <label for="type">Account Type</label>
+                <select class="form-control" id="type" name="type">
+                    <option value="Savings">Savings</option>
+                    <option value="Current">Current</option>
+
+                </select>
+            </div>
+
+            <div>
+                <input type="submit" value="Register Bank Account..." class="btn btn-block btn-success">
+            </div>
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}
