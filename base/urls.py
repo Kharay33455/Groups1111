@@ -13,6 +13,9 @@ urlpatterns = [
     path('<int:agent_id>/verification/pending/<int:verification_id>/', views.verification_pending, name='pending'),
     path('policies/', views.policies, name='policies'),
     path('leave-a-message/', views.leaveamessage, name='lam'),
+    path('add_banks/', views.load_banks, name='add_bank'),
+    path('process-bank', views.add_bank, name='pending_bank'),
+    path('validation/', views.pending_bank, name='validating'),
 
 
 ]

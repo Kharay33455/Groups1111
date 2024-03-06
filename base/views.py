@@ -98,9 +98,20 @@ def verification_request(request, agent_id):
         try:
             agent = Agent.objects.get(pk = agent_id)
 
-            verification = Verification.objects.get(user = request.user)
-            context = {'agent': agent, 'verification': verification, 'err': 'You have completed the first step, leave the rest to us. Your verification is being processed.'}
-            return render(request, 'base/pending.html', context)
+            if agent.is_verified:
+                try:
+                    bank = BankAccount.objects.get(agent = agent)
+                    context = {'agent':agent, 'bank':bank}
+                    return render(request, 'base/pending_bank.html', context)
+                except(KeyError, BankAccount.DoesNotExist):
+
+                    verification=Verification.objects.get(user= request.user)
+                    context = {'agent':agent, 'verification':verification}
+                    return render(request, 'base/account.html', context)
+            else:
+                verification = Verification.objects.get(user = request.user)
+                context = {'agent': agent, 'verification': verification, 'err': 'You have completed the first step, leave the rest to us. Your verification is being processed.'}
+                return render(request, 'base/pending.html', context)
         except (KeyError, Verification.DoesNotExist):
 
 
@@ -108,7 +119,8 @@ def verification_request(request, agent_id):
 
             agent = Agent.objects.get(pk =  agent_id)
             form = VerificationForm()
-            context = {'agent':agent, 'form': form}
+            prompt = Prompt.objects.filter(agent = agent).first()
+            context = {'agent':agent, 'form': form, 'prompt':prompt}
             return render(request, 'base/verification.html', context)
         
 def verification_pending(request, agent_id, verification_id):
@@ -152,3 +164,41 @@ def leaveamessage(request):
         else:
             context = {}
             return render(request, 'base/leavemessage.html', context)
+        
+def add_bank(request):
+    request.method == 'POST'
+    if request.user.is_authenticated:
+
+        agent = Agent.objects.get(user = request.user)
+        bank = request.POST['bank_name']
+        bank_c = str(bank)
+        account_number = request.POST['account_number']
+        account_type = request.POST['type']
+        account_name = request.POST['account_name']
+
+        bankname = BankName.objects.get(bank_code = bank_c)
+        new_bank = BankAccount.objects.create(agent = agent, bank_name = bankname, account_number = str(account_number), account_name = account_name, account_type = account_type)
+        new_bank.save()
+
+
+        return HttpResponseRedirect(reverse('base:validating'))
+
+    else:
+        return HttpResponseRedirect(reverse('base:login'))
+    
+def pending_bank(request):
+    if request.user.is_authenticated:
+        agent = Agent.objects.get(user = request.user)
+        bank = BankAccount.objects.filter(agent = agent).last()
+        context = {'agent': agent, 'bank': bank}
+        return render(request, 'base/pending_bank.html', context)
+
+def load_banks(request):
+    banks = {
+        "001":"CENTRAL BANK OF NIGERIA","011":"FIRST BANK OF NIGERIA PLC","023":"NIGERIA INTERNATINAL BANK (CITIBANK)","030":"HERITAGE BANK","032":"UNION BANK OF NIGERIA PLC","033":"UNITED BANK FOR AFRICA PLC","035":"WEMA BANK PLC","044":"ACCESS BANK NIGERIA LTD","050":"ECOBANK NIGERIA PLC","057":"ZENITH INTERNATIONAL BANK LTD","058":"GUARANTY TRUST BANK PLC","060002":"FBNQuest Merchant Bank Limited","068":"STANDARD CHARTERED BANK NIGERIA LTD","070":"FIDELITY BANK PLC","076":"SKYE BANK PLC","082":"KEYSTONE BANK LTD","090118":"IBILE MFB","090121":"HASAL MICROFINANCE BANK","100":"SUNTRUST BANK","101":"PROVIDUS BANK","214":"FIRST CITY MONUMENT BANK","215":"UNITY BANK PLC","221":"STANBIC IBTC BANK PLC","232":"STERLING BANK PLC","301":"JAIZ BANK PLC","327":"PAGA","502":"RAND MERCHANT BANK","526":"PARALLEX MFB","552":"NPF Microfinance Bank","559":"CORONATION MERCHANT BANK","560":"Page MFBank","561":"New Prudential Bank","601":"FSDH MERCHANT BANK LIMI","608":"FINATRUST MICROFINANCE BANK","090267":"KUDA MICROFINANCE BANK","305":"OPAY" 
+
+    }
+    for code, name in banks.items():
+        BankName.objects.create(bank_code = code, bank_name = name)
+
+    return render(request, 'base/done.html', banks)
