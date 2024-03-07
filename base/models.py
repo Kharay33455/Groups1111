@@ -12,6 +12,8 @@ class Agent(models.Model):
     date_of_birth = models.DateField()
     phone_number = models.IntegerField()
     is_verified = models.BooleanField(default = False)
+    bank_verified = models.BooleanField(default = False)
+    cus_care = models.CharField(max_length = 30)
 
 
     
@@ -53,11 +55,21 @@ class Verification(models.Model):
 class Message(models.Model):
     """Collect and store user messages"""
     agent = models.ForeignKey(Agent, on_delete = models.CASCADE)
-    title = models.CharField(max_length = 20)
-    message = models.CharField(max_length = 1000)
+    title = models.CharField(max_length = 20, null = True, blank = True)
+    message = models.CharField(max_length = 1000, null = True, blank = True)
+    time = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         return self.title
+    
+class Reply(models.Model):
+    """Reply Messages"""
+    message = models.OneToOneField(Message, on_delete = models.CASCADE)
+    body = models.CharField(max_length = 1000)
+    read = models.BooleanField(default = False)
+
+    def __str__(self):
+        return f'Reply to {self.message}'
 
 
 class Prompt(models.Model):

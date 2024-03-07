@@ -40,57 +40,57 @@
 
 
                 <div style="width: 45%; float: right; padding-right: 5%;">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1"><span class="text">I am a: </span></label>
-                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                <option>Buyer</option>
-                                <option>Seller</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label> <span class="text">I want to trade: </span></label>
-                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                <option>Automotive or industrial spare parts</option>
-                                <option>Beauty and Health</option>
-                                <option>Books or Magazines</option>
-                                <option>Clothing and other Accessories</option>
-                                <option>Computer Hardware or Software</option>
-                                <option>Cosmetics injectibles</option>
-                                <option>Electronics</option>
-                                <option>Food</option>
-                                <option>Fine Art</option>
-                                <option>Furniture</option>
-                                <option>Heavy Equipment and Machinery</option>
-                                <option>Intellectual Property</option>
-                                <option>Jewellery and Watches</option>
-                                <option>Movies and Music</option>
-                                <option>Toys and Hobbies</option>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1"><span class="text">I am a: </span></label>
+                        <select class="form-control" id="exampleFormControlSelect1" required>
+                            <option>Buyer</option>
+                            <option>Seller</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label> <span class="text">I want to trade: </span></label>
+                        <select class="form-control" id="exampleFormControlSelect1" required>
+                            <option>Automotive or industrial spare parts</option>
+                            <option>Beauty and Health</option>
+                            <option>Books or Magazines</option>
+                            <option>Clothing and other Accessories</option>
+                            <option>Computer Hardware or Software</option>
+                            <option>Cosmetics injectibles</option>
+                            <option>Electronics</option>
+                            <option>Food</option>
+                            <option>Fine Art</option>
+                            <option>Furniture</option>
+                            <option>Heavy Equipment and Machinery</option>
+                            <option>Intellectual Property</option>
+                            <option>Jewellery and Watches</option>
+                            <option>Movies and Music</option>
+                            <option>Toys and Hobbies</option>
 
-                            </select>
+                        </select>
 
-                        </div>
+                    </div>
 
-                        <div class="form-group">
-                            <span> <label for="exampleInputPassword1"><span class="text">I deal in:</span> </label>
-                                <input type="text" class="form-control" id="exampleInputPassword1"
-                                    placeholder="CURRENCY" required>
-                            </span>
-                        </div>
-                        {% if request.user.is_authenticated %}
-                        <div>
-                            <a href="{% url 'base:verification' agent.id %}">
+                    <div class="form-group">
+                        <span> <label for="exampleInputPassword1"><span class="text">I deal in:</span> </label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="CURRENCY"
+                                required>
+                        </span>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'base:verification' agent.id %}">
                             <button type="submit" style="color: whitesmoke; background-color: green;">Get
                                 Started</button>
-                            </a>
-                        </div>
-                        {% else %}
-                        <a href="{% url 'base:login' %}">
+                        </a>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'base:login' %}">
                         <div>
                             <button type="submit" style="color: whitesmoke; background-color: green;">Get
                                 Started</button>
                         </div>
                     </a>
-                        {% endif %}
+                    {% endif %}
 
                 </div>
             </div>
@@ -210,8 +210,11 @@
     </div>
     <div class="container">
         <div style="background-color: wheat; padding: 10%;">
-            <b class="text">Transactions completed with us as at <span style="font-family: 'Times New Roman', Times, serif; color: rgb(30,133,225);" >{{time}} </span></b><br />
-            <b class="text"> <span style="font-size: xx-large; color: rgb(100, 200, 100);">8,392,039 </span>...and counting. Yours should be
+            <b class="text">Transactions completed with us as at <span
+                    style="font-family: 'Times New Roman', Times, serif; color: rgb(30,133,225);">{{time}}
+                </span></b><br />
+            <b class="text"> <span style="font-size: xx-large; color: rgb(100, 200, 100);">8,392,039 </span>...and
+                counting. Yours should be
                 next!!!</b><br />
 
 
@@ -223,6 +226,23 @@
                 </svg></button>
         </div>
     </div>
+ 
+    
+{% if request.user.is_authenticated %}
+{% if agent.bank_verified %}
+
+    <div style="position: fixed; top:70%; width: 100%;">
+
+    <div style="width: 100%; position: relative; z-index: 3;">
+        <a href="{% url 'base:lam' %}">
+     
+        <img style="width: 60px; border-radius: 50%; position: absolute; top:0px; right: 0px;" src="/static/base/images/cus.png" alt="">
+    </a>
+    </div>
+
+</div>
+{% endif %}
+{% endif %}
 
     {% endblock %}
 </body>

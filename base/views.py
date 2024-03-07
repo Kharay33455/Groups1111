@@ -99,15 +99,21 @@ def verification_request(request, agent_id):
             agent = Agent.objects.get(pk = agent_id)
 
             if agent.is_verified:
-                try:
-                    bank = BankAccount.objects.get(agent = agent)
-                    context = {'agent':agent, 'bank':bank}
-                    return render(request, 'base/pending_bank.html', context)
-                except(KeyError, BankAccount.DoesNotExist):
+                if agent.bank_verified:
+                    banks = BankAccount.objects.filter(agent=agent)
+                    context = {'agent':agent, 'banks':banks}
+                    return render(request, 'base/verified.html', context)
+                else:
 
-                    verification=Verification.objects.get(user= request.user)
-                    context = {'agent':agent, 'verification':verification}
-                    return render(request, 'base/account.html', context)
+                    try:
+                        bank = BankAccount.objects.get(agent = agent)
+                        context = {'agent':agent, 'bank':bank}
+                        return render(request, 'base/pending_bank.html', context)
+                    except(KeyError, BankAccount.DoesNotExist):
+
+                        verification=Verification.objects.get(user= request.user)
+                        context = {'agent':agent, 'verification':verification}
+                        return render(request, 'base/account.html', context)
             else:
                 verification = Verification.objects.get(user = request.user)
                 context = {'agent': agent, 'verification': verification, 'err': 'You have completed the first step, leave the rest to us. Your verification is being processed.'}
@@ -170,18 +176,25 @@ def add_bank(request):
     if request.user.is_authenticated:
 
         agent = Agent.objects.get(user = request.user)
-        bank = request.POST['bank_name']
-        bank_c = str(bank)
-        account_number = request.POST['account_number']
-        account_type = request.POST['type']
-        account_name = request.POST['account_name']
+        if BankAccount.objects.filter(agent = agent).count() < 3:
+            bank = request.POST['bank_name']
+            bank_c = str(bank)
+            account_number = request.POST['account_number']
+            account_type = request.POST['type']
+            account_name = request.POST['account_name']
 
-        bankname = BankName.objects.get(bank_code = bank_c)
-        new_bank = BankAccount.objects.create(agent = agent, bank_name = bankname, account_number = str(account_number), account_name = account_name, account_type = account_type)
-        new_bank.save()
+            bankname = BankName.objects.get(bank_code = bank_c)
+            new_bank = BankAccount.objects.create(agent = agent, bank_name = bankname, account_number = str(account_number), account_name = account_name, account_type = account_type)
+            new_bank.save()
 
 
-        return HttpResponseRedirect(reverse('base:validating'))
+            return HttpResponseRedirect(reverse('base:validating'))
+        
+        else:
+            banks =BankAccount.objects.filter(agent = agent)
+            context = {'agent':agent, 'banks':banks, 'err':'Banks for your tier cannot exceed 3...'}
+            return render(request, 'base/verified.html', context)
+
 
     else:
         return HttpResponseRedirect(reverse('base:login'))
@@ -189,9 +202,15 @@ def add_bank(request):
 def pending_bank(request):
     if request.user.is_authenticated:
         agent = Agent.objects.get(user = request.user)
-        bank = BankAccount.objects.filter(agent = agent).last()
-        context = {'agent': agent, 'bank': bank}
-        return render(request, 'base/pending_bank.html', context)
+        if agent.bank_verified:
+            banks =BankAccount.objects.filter(agent = agent)
+            context = {'agent':agent, 'banks':banks}
+            return render(request, 'base/verified.html', context)
+        else:
+
+            bank = BankAccount.objects.filter(agent = agent).last()
+            context = {'agent': agent, 'bank': bank}
+            return render(request, 'base/pending_bank.html', context)
 
 def load_banks(request):
     banks = {
@@ -202,3 +221,60 @@ def load_banks(request):
         BankName.objects.create(bank_code = code, bank_name = name)
 
     return render(request, 'base/done.html', banks)
+
+
+def depo(request):
+    if request.user.is_authenticated:
+        request.method == 'POST'
+        agent = Agent.objects.get(user = request.user)
+        tfa = request.POST['bank']
+        tfa = str(tfa)
+        body = 'From '
+        body += tfa
+        amount =request.POST['amount']
+        message = 'Deposit of '
+        message += amount
+        new_messsage = Message.objects.create(agent = agent, title = message, message =body )
+        new_messsage.save()
+        context = {'agent': agent, 'msg':'Your message has been sent. We will reach out to you as soon as possible.'}
+        return render(request, 'base/leavemessage.html', context)
+    else:
+        return HttpResponseRedirect(reverse('base:login'))
+    
+
+"""Show all msgs"""
+def messages(request):
+    if request.user.is_authenticated:
+        agent = Agent.objects.get(user = request.user)
+        messages = Message.objects.filter(agent = agent).order_by('-time')
+        context = {'agent': agent, 'messages':messages}
+        return render(request, 'base/messages.html', context)
+    else:
+        return HttpResponseRedirect(reverse('base:login'))
+    
+"""Specific message"""
+def message(request, message_id):
+    if request.user.is_authenticated:
+        agent = Agent.objects.get(user = request.user)
+        message = Message.objects.get(id = message_id)
+        try:
+
+            reply = Reply.objects.get(message = message)
+            reply.read = True
+            reply.save()
+        
+        except(KeyError, Reply.DoesNotExist):
+            reply = None        
+        context = {'agent':agent, 'message':message, 'reply': reply}
+        return render(request, 'base/message.html', context)
+    else:
+        return HttpResponseRedirect(reverse('base:login'))
+    
+
+def transac(request):
+    if request.user.is_authenticated:
+        agent = Agent.objects.get(user = request.user)
+        context = {'agent':agent}
+        return render(request, 'base/transac.html', context)
+    else:
+        return HttpResponseRedirect(reverse('base:login'))

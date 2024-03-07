@@ -52,6 +52,17 @@ pulled from w3
     float: left;
     width: 100%;
   }
+
+  .verified{
+    border: solid;  
+    border-width: 3px; 
+    padding: 20px; 
+    border-style: ridge; 
+    border-radius: 3%; 
+    border-left-color: 
+    rgb(100, 200, 100); 
+    border-left-width: 6px;
+  }
   
   /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
   @media (max-width: 600px) {

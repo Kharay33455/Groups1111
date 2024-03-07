@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container">
+    
+<h2 >
+  TITLE:  {{message.title}}
+</h2>
+<hr>
+<h3>
+   Request: {{message.message}}
+</h3>
+
+<hr>
+<h2>
+    {% if reply %}
+   {{ reply }} <br> <br> <br> {{reply.body}}
+    {% endif %}
+</h2>
+
+</div>
+{% endblock %}

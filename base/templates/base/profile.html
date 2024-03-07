@@ -40,7 +40,12 @@
                                         d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
                                 </svg>
                             </span><br />
-                            <span>Transactions
+                            <span>
+                                {% if agent.bank_verified %}
+                                <a href= "{% url 'base:trans' %}"> Transactions</a>
+                                {% else %}
+                                Transactions{% endif %}
+
                             </span><br /><span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
                                     fill="currentColor" class="bi bi-wallet-fill" viewBox="0 0 16 16">
                                     <path
@@ -48,7 +53,19 @@
                                     <path
                                         d="M16 6.5h-5.551a2.7 2.7 0 0 1-.443 1.042C9.613 8.088 8.963 8.5 8 8.5s-1.613-.412-2.006-.958A2.7 2.7 0 0 1 5.551 6.5H0v6A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5z" />
                                 </svg></span><br />
-                            <span>Messages</span><br />
+                            <span>
+                                {% if agent.bank_verified %}
+
+                               
+                               <a href="{% url 'base:messages' %}"> Messages </a>
+                               {% else %}
+                               Messages
+
+
+                                {% endif %}
+
+
+                            </span><br />
                             <span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
                                     class="bi bi-envelope-fill" viewBox="0 0 16 16">
                                     <path
@@ -76,8 +93,11 @@
                         <path
                             d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a2 2 0 0 1-1-.268M1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1" />
                     </svg>
+                    {% if agent.bank_verified %}
+                    <p>No assets</p>
+                    {% else %}
                     <b style="color:rgb(100, 200, 100);">$100,000</b>
-
+                    {% endif %}
                 </p>
                 <a href="{% url 'base:verification' agent.id %}">
                 <button style="background-color: green; color: whitesmoke;">Withdraw</button>
